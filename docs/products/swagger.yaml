@@ -12,7 +12,7 @@ definitions:
       image:
         type: string
       rating:
-        type: string
+        type: integer
       title:
         type: string
       updated_at:
@@ -68,6 +68,11 @@ paths:
       description: get Delete Product
       produces:
       - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Product'
       summary: Delete Product
       tags:
       - products

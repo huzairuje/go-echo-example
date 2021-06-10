@@ -132,7 +132,15 @@ var doc = `{
                 "tags": [
                     "products"
                 ],
-                "summary": "Delete Product"
+                "summary": "Delete Product",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Product"
+                        }
+                    }
+                }
             }
         }
     },
@@ -156,7 +164,7 @@ var doc = `{
                     "type": "string"
                 },
                 "rating": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "title": {
                     "type": "string"

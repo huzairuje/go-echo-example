@@ -60,6 +60,17 @@ func SingleData(c echo.Context, message string, data interface{}, error interfac
 	})
 }
 
+func ListData(c echo.Context, message string, data interface{}, error interface{}) error {
+	return c.JSON(http.StatusOK, Single{
+		Meta: Meta{
+			Code:    http.StatusOK,
+			Message: message,
+			Error:   error,
+		},
+		Data: data,
+	})
+}
+
 func DataWithoutMeta(c echo.Context, data interface{}) error {
 	return c.JSON(http.StatusOK, data)
 }

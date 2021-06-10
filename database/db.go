@@ -1,30 +1,30 @@
 package database
 
 import (
-	"database/sql"
 	"fmt"
 	"github.com/huzairuje/chatat_backend_engineer/util"
-	_ "github.com/lib/pq"
 	log "github.com/sirupsen/logrus"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-var conn *sql.DB
+var conn *gorm.DB
 
-func CreateDB(config *util.Config) *sql.DB {
+func CreateDB(config *util.Config) *gorm.DB {
 	dbHost := config.DatabaseHost
 	dbPort := config.DatabasePort
 	dbUser := config.DatabaseUser
 	dbPass := config.DatabasePassword
 	dbName := config.DatabaseName
 
-	connection := fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s sslmode=disable",
+	connection := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Jakarta",
+		dbHost,
 		dbUser,
 		dbPass,
-		dbHost,
-		dbPort,
-		dbName)
+		dbName,
+		dbPort)
 
-	db, err := sql.Open("postgres", connection)
+	db, err := gorm.Open(postgres.Open(connection), &gorm.Config{})
 	if err != nil {
 		log.Errorf("failed to open database: %v", err)
 	}
@@ -33,11 +33,11 @@ func CreateDB(config *util.Config) *sql.DB {
 }
 
 //GetConnection : Get Available Connection
-func GetConnection() *sql.DB {
+func GetConnection() *gorm.DB {
 	return conn
 }
 
 //SetConnection : Set Available Connection
-func SetConnection(connection *sql.DB) {
+func SetConnection(connection *gorm.DB) {
 	conn = connection
 }

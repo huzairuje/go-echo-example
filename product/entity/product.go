@@ -1,12 +1,15 @@
 package entity
 
-import "time"
+import (
+	"github.com/gofrs/uuid"
+	"time"
+)
 
 type Product struct {
-	Id          string    `json:"id"`
+	Id          uuid.UUID `json:"id" gorm:"primary_key; unique;type:uuid; column:id;default:uuid_generate_v4()"`
 	Title       string    `json:"title"`
 	Description string    `json:"description"`
-	Rating      string    `json:"rating"`
+	Rating      int       `json:"rating"`
 	Image       string    `json:"image"`
 	CreatedAt   time.Time `json:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at"`
