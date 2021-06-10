@@ -1,7 +1,6 @@
 package service
 
 import (
-	"context"
 	"github.com/gofrs/uuid"
 	"github.com/huzairuje/chatat_backend_engineer/product/entity"
 	"github.com/huzairuje/chatat_backend_engineer/product/repository"
@@ -20,7 +19,7 @@ func NewProductService(db *gorm.DB) repository.Repository {
 	return ProductService{db}
 }
 
-func (p ProductService) Store(ctx context.Context, req request.CreateProductRequest) (*entity.Product, error) {
+func (p ProductService) Store(req request.CreateProductRequest) (*entity.Product, error) {
 	createdAtNow := time.Now()
 	var product entity.Product
 	product.Title = req.Title
@@ -59,7 +58,7 @@ func (p ProductService) FindByID(id string) (*entity.Product, error) {
 	return &product, nil
 }
 
-func (p ProductService) Update(ctx context.Context, id string, req request.UpdateProductRequest) (*entity.Product, error) {
+func (p ProductService) Update(id string, req request.UpdateProductRequest) (*entity.Product, error) {
 	var product entity.Product
 	uuidFromString, _ := uuid.FromString(id)
 	product.Id = uuidFromString
@@ -71,7 +70,6 @@ func (p ProductService) Update(ctx context.Context, id string, req request.Updat
 		Image: req.Image,
 		UpdatedAt: updatedAtNow,
 	}).Error
-
 	if err != nil {
 		log.Println("error when commit transaction: ", err.Error())
 		return nil, err
@@ -80,11 +78,10 @@ func (p ProductService) Update(ctx context.Context, id string, req request.Updat
 	return &product, nil
 }
 
-func (p ProductService) Destroy(ctx context.Context, id string) error {
+func (p ProductService) Destroy(id string) error {
 	uuidFromString, _ := uuid.FromString(id)
 	var product entity.Product
 	product.Id = uuidFromString
-
 	isExisting, err := p.FindByID(id)
 	if isExisting == nil {
 		return err

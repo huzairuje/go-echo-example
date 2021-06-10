@@ -44,6 +44,12 @@ and then
     go run main.go
 ```
 ## Features
+1. Open API (swagger), you can access it on (http://localhost:3000/swagger/index.html)
+2. DB Migration using golang-migrate (https://github.com/golang-migrate/migrate)
+3. validation by struct
+4. using config with viper (https://github.com/spf13/viper)
+5. using echo HTTP framework (https://echo.labstack.com/) 
+6. using grom (https://gorm.io/) as ORM 
 
 ## License
 This package is open-sourced software licensed under the MIT license.

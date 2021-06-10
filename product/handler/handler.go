@@ -12,16 +12,16 @@ import (
 	"gorm.io/gorm"
 )
 
-type productHandler struct {
+type ProductHandler struct {
 	context           context.Context
 	productRepository repository.Repository
 	db                *gorm.DB
 }
 
-func NewProductHandler(db *gorm.DB) *productHandler {
+func NewProductHandler(db *gorm.DB) *ProductHandler {
 	repo := service.NewProductService(db)
 	var ctx context.Context
-	return &productHandler{
+	return &ProductHandler{
 		context:           ctx,
 		productRepository: repo,
 		db:                db,
@@ -36,7 +36,7 @@ func NewProductHandler(db *gorm.DB) *productHandler {
 // @Produce  json
 // @Success 200 {object} entity.Product
 // @Router /products [post]
-func (p productHandler) Create(ctx echo.Context) error {
+func (p ProductHandler) Create(ctx echo.Context) error {
 	var req request.CreateProductRequest
 	if err := ctx.Bind(&req); err != nil {
 		return response.BadRequest(ctx, util.BadRequest, nil, err.Error())
@@ -44,7 +44,7 @@ func (p productHandler) Create(ctx echo.Context) error {
 	if err := ctx.Validate(req); err != nil {
 		return response.ValidationError(ctx, util.ValidationError, nil, err.Error())
 	}
-	data, err := p.productRepository.Store(p.context, req)
+	data, err := p.productRepository.Store(req)
 	if err != nil {
 		return response.InternalServerError(ctx, util.SomethingWentWrong, nil, err.Error())
 	}
@@ -60,7 +60,7 @@ func (p productHandler) Create(ctx echo.Context) error {
 // @Success 200 {object} entity.Product
 // @Produce  json
 // @Router /products [get]
-func (p productHandler) List(ctx echo.Context) error {
+func (p ProductHandler) List(ctx echo.Context) error {
 	data, err := p.productRepository.List()
 	if err != nil {
 		return response.InternalServerError(ctx, util.SomethingWentWrong, nil, err.Error())
@@ -79,7 +79,7 @@ func (p productHandler) List(ctx echo.Context) error {
 // @Success 200 {object} entity.Product
 // @Produce  json
 // @Router /products/{id} [get]
-func (p productHandler) Detail(ctx echo.Context) error {
+func (p ProductHandler) Detail(ctx echo.Context) error {
 	id := ctx.Param("id")
 	data, err := p.productRepository.FindByID(id)
 	if err != nil {
@@ -99,7 +99,7 @@ func (p productHandler) Detail(ctx echo.Context) error {
 // @Produce  json
 // @Success 200 {object} entity.Product
 // @Router /products/{id} [put]
-func (p productHandler) Update(ctx echo.Context) error {
+func (p ProductHandler) Update(ctx echo.Context) error {
 	id := ctx.Param("id")
 	var req request.UpdateProductRequest
 	if err := ctx.Bind(&req); err != nil {
@@ -108,8 +108,11 @@ func (p productHandler) Update(ctx echo.Context) error {
 	if err := ctx.Validate(req); err != nil {
 		return response.ValidationError(ctx, util.ValidationError, nil, err.Error())
 	}
-	data, err := p.productRepository.Update(p.context, id, req)
+	data, err := p.productRepository.Update(id, req)
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return response.NotFound(ctx, util.NotFound, nil, err.Error())
+		}
 		return response.InternalServerError(ctx, util.SomethingWentWrong, nil, err.Error())
 	}
 	return response.SingleData(ctx, util.OK, data, nil)
@@ -123,9 +126,9 @@ func (p productHandler) Update(ctx echo.Context) error {
 // @Produce  json
 // @Success 200 {object} entity.Product
 // @Router /products/{id} [delete]
-func (p productHandler) Delete(ctx echo.Context) error {
+func (p ProductHandler) Delete(ctx echo.Context) error {
 	id := ctx.Param("id")
-	err := p.productRepository.Destroy(p.context, id)
+	err := p.productRepository.Destroy(id)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return response.NotFound(ctx, util.NotFound, nil, err.Error())
