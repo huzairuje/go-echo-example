@@ -1,0 +1,6 @@
+ServerPort: "3000"
+DatabaseHost: "localhost"
+DatabasePort: "5432"
+DatabaseUser: "postgres"
+DatabasePassword: "postgres"
+DatabaseName: "products"
