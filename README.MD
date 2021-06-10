@@ -15,7 +15,7 @@ install the dependencies from go mod with
 ```
 
 #### 3. configuration
-add existing config.yml with cp from example
+add existing config.yml with cp from example :
 ```$xslt
     cp config.yml.example config.yml
 ```
@@ -30,10 +30,52 @@ DatabaseName: "products"
 ```
 
 #### 4. migrate database
-migrate the database, with this command
-```$xslt
-    go mod install
+firstly you need this package to run the migration https://github.com/golang-migrate/migrate
+to install the package you need to run this
+#### MacOS
+
+```bash
+$ brew install golang-migrate
 ```
+
+#### Windows
+
+Using [scoop](https://scoop.sh/)
+
+```bash
+$ scoop install migrate
+```
+
+#### Linux (*.deb package)
+
+```bash
+$ curl -L https://packagecloud.io/golang-migrate/migrate/gpgkey | apt-key add -
+$ echo "deb https://packagecloud.io/golang-migrate/migrate/ubuntu/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/migrate.list
+$ apt-get update
+$ apt-get install -y migrate
+```
+#### usage
+```bash
+$ migrate -help
+```
+and use this command to do the migration
+```bash
+$ migrate -database postgresql://postgres:postgres@localhost:5432/products -path product/migration/ up
+```
+#### With Go toolchain
+
+##### Versioned
+
+```bash
+$ go get -u -d github.com/golang-migrate/migrate/cmd/migrate
+$ cd $GOPATH/src/github.com/golang-migrate/migrate/cmd/migrate
+$ git checkout $TAG  # e.g. v4.1.0
+$ # Go 1.15 and below
+$ go build -tags 'postgres' -ldflags="-X main.Version=$(git describe --tags)" -o $GOPATH/bin/migrate $GOPATH/src/github.com/golang-migrate/migrate/cmd/migrate
+$ # Go 1.16+
+$ go install -tags 'postgres' -o $GOPATH/bin/migrate github.com/golang-migrate/migrate/v4/cmd/migrate@$TAG
+```
+
 #### 5. run the server
 go to this project root folder
 ```$xslt
