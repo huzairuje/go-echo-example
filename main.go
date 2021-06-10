@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/huzairuje/chatat_backend_engineer/database"
 	_ "github.com/huzairuje/chatat_backend_engineer/docs/products"
-	"github.com/huzairuje/chatat_backend_engineer/product/routes"
+	productsDomain "github.com/huzairuje/chatat_backend_engineer/product/routes"
 	"github.com/huzairuje/chatat_backend_engineer/response"
 	"github.com/huzairuje/chatat_backend_engineer/util"
 	"github.com/huzairuje/chatat_backend_engineer/validator"
@@ -39,8 +39,8 @@ func main() {
 		// render 404 custom response
 		return response.NotFound(c, "Not Matching of Any Routes", nil, "Not Found")
 	}
-	//initiate routes by domain
-	routes.ProductRoutes(router, db)
+	//initiate routes by domain (this domain just products domain)
+	productsDomain.ProductRoutes(router, db)
 	//initiate swagger routes
 	router.GET("/swagger/*", echoSwagger.WrapHandler)
 	//start web (echo) service
