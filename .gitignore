@@ -1,4 +1,4 @@
 .idea/
-release/
+release/*
 config.yml
 logs/
