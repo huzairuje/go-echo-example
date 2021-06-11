@@ -15,14 +15,15 @@ import (
 // @title Products API
 // @version 1.0
 // @description This is a products server.
+// @description you can access the code on github https://github.com/huzairuje/go-echo-example/
 // @termsOfService http://swagger.io/terms/
 
 // @contact.name API Support
 // @contact.url http://www.swagger.io/support
 // @contact.email support@swagger.io
 
-// @license.name Apache 2.0
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @license.name MIT License
+// @license.url https://opensource.org/licenses/MIT
 
 // @schemes http
 func main() {

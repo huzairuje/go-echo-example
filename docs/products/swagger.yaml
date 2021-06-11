@@ -1,32 +1,31 @@
 definitions:
-  entity.Product:
+  response.Meta:
     properties:
-      created_at:
-        type: string
-      deleted_at:
-        type: string
-      description:
-        type: string
-      id:
-        type: string
-      image:
-        type: string
-      rating:
+      code:
         type: integer
-      title:
+      error:
+        type: object
+      message:
         type: string
-      updated_at:
-        type: string
+    type: object
+  response.Single:
+    properties:
+      data:
+        type: object
+      meta:
+        $ref: '#/definitions/response.Meta'
     type: object
 info:
   contact:
     email: support@swagger.io
     name: API Support
     url: http://www.swagger.io/support
-  description: This is a products server.
+  description: |-
+    This is a products server.
+    you can access the code on github https://github.com/huzairuje/go-echo-example/
   license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
   termsOfService: http://swagger.io/terms/
   title: Products API
   version: "1.0"
@@ -43,7 +42,11 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/entity.Product'
+            $ref: '#/definitions/response.Single'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Single'
       summary: List Product
       tags:
       - products
@@ -57,7 +60,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/entity.Product'
+            $ref: '#/definitions/response.Single'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Single'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Single'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Single'
       summary: Create Product
       tags:
       - products
@@ -72,7 +87,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/entity.Product'
+            $ref: '#/definitions/response.Single'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Single'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Single'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Single'
       summary: Delete Product
       tags:
       - products
@@ -86,7 +113,19 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/entity.Product'
+            $ref: '#/definitions/response.Single'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Single'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Single'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Single'
       summary: Detail Product
       tags:
       - products
@@ -100,7 +139,23 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/entity.Product'
+            $ref: '#/definitions/response.Single'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Single'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.Single'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.Single'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Single'
       summary: Update Product
       tags:
       - products

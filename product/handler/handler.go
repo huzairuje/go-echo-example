@@ -34,7 +34,10 @@ func NewProductHandler(db *gorm.DB) *ProductHandler {
 // @Tags products
 // @Accept */*
 // @Produce  json
-// @Success 200 {object} entity.Product
+// @Success 200 {object} response.Single
+// @Failure 400 {object} response.Single
+// @Failure 422 {object} response.Single
+// @Failure 500 {object} response.Single
 // @Router /products [post]
 func (p ProductHandler) Create(ctx echo.Context) error {
 	var req request.CreateProductRequest
@@ -57,7 +60,8 @@ func (p ProductHandler) Create(ctx echo.Context) error {
 // @Tags products
 // @Accept */*
 // @Produce  json
-// @Success 200 {object} entity.Product
+// @Success 200 {object} response.Single
+// @Failure 500 {object} response.Single
 // @Produce  json
 // @Router /products [get]
 func (p ProductHandler) List(ctx echo.Context) error {
@@ -76,7 +80,10 @@ func (p ProductHandler) List(ctx echo.Context) error {
 // @Description get Detail Product
 // @Tags products
 // @Accept  json
-// @Success 200 {object} entity.Product
+// @Success 200 {object} response.Single
+// @Failure 404 {object} response.Single
+// @Failure 422 {object} response.Single
+// @Failure 500 {object} response.Single
 // @Produce  json
 // @Router /products/{id} [get]
 func (p ProductHandler) Detail(ctx echo.Context) error {
@@ -97,7 +104,11 @@ func (p ProductHandler) Detail(ctx echo.Context) error {
 // @Tags products
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} entity.Product
+// @Success 200 {object} response.Single
+// @Failure 400 {object} response.Single
+// @Failure 404 {object} response.Single
+// @Failure 422 {object} response.Single
+// @Failure 500 {object} response.Single
 // @Router /products/{id} [put]
 func (p ProductHandler) Update(ctx echo.Context) error {
 	id := ctx.Param("id")
@@ -124,7 +135,10 @@ func (p ProductHandler) Update(ctx echo.Context) error {
 // @Tags products
 // @Accept  json
 // @Produce  json
-// @Success 200 {object} entity.Product
+// @Success 200 {object} response.Single
+// @Failure 404 {object} response.Single
+// @Failure 422 {object} response.Single
+// @Failure 500 {object} response.Single
 // @Router /products/{id} [delete]
 func (p ProductHandler) Delete(ctx echo.Context) error {
 	id := ctx.Param("id")
