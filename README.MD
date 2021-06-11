@@ -7,6 +7,10 @@ Go into your go work directory
 ```$xslt
     cd GO-WORK-DIRECTORY/
 ```
+and git clone the project
+```$xslt
+    git clone https://github.com/huzairuje/go-echo-example.git
+```
 
 #### 2. install dependencies
 install the dependencies from go mod with
