@@ -1,0 +1,18 @@
+name: "go echo example API"
+# Start your api with Optic by running 'api run <taskname>'
+tasks:
+  start:
+    command: go run main.go
+    inboundUrl: http://localhost:3002
+    targetUrl: http://localhost:3500
+
+# Capture traffic from a deployed api by running 'api intercept <environment-name>'
+# pass '--chrome' to capture from your browser's network tab
+environments:
+  production:
+    host: https://api.github.com # the hostname of the API we should record traffic from
+    webUI: https://api.github.com/repos/opticdev/optic # the url that should open when a browser flag is passed
+
+  local:
+    host: http://localhost:3000 # the hostname of the API we should record traffic from
+    webUI: https://api.github.com/repos/opticdev/optic # the url that should open when a browser flag is passed
