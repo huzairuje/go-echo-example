@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: opticdev/optic-changelog@<tag or commit hash>
+      - uses: opticdev/optic-changelog@7f5cd6a3fadde150fc144261b803bfa1beba3ebd
         with:
           GITHUB_TOKEN: ${{secrets.OPTIC_GITHUB_TOKEN}}
           OPTIC_API_KEY: ${{secrets.OPTIC_API_KEY}}
