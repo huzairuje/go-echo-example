@@ -59,11 +59,16 @@ func (p ProductService) FindByID(id string) (*entity.Product, error) {
 }
 
 func (p ProductService) Update(id string, req request.UpdateProductRequest) (*entity.Product, error) {
+	res, err := p.FindByID(id)
+	if err != nil || res == nil {
+		logrus.Info("err ", err)
+		return nil, err
+	}
 	var product entity.Product
 	uuidFromString, _ := uuid.FromString(id)
 	product.Id = uuidFromString
 	updatedAtNow := time.Now()
-	err := p.DB.Model(&product).UpdateColumns(entity.Product{
+	err = p.DB.Model(&product).UpdateColumns(entity.Product{
 		Title: req.Title,
 		Description: req.Description,
 		Rating: req.Rating,
@@ -83,7 +88,7 @@ func (p ProductService) Destroy(id string) error {
 	var product entity.Product
 	product.Id = uuidFromString
 	isExisting, err := p.FindByID(id)
-	if isExisting == nil {
+	if err != nil || isExisting == nil {
 		return err
 	}
 	deleteAtNow := time.Now()
